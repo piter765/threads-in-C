@@ -3,7 +3,11 @@
 
 /*** Definicje typow zmiennych ***/
 typedef struct {
-  // <- zasoby czytelni
+  int liczba_p, liczba_c;
+  pthread_mutex_t mutex;
+  pthread_cond_t pisarz;
+  pthread_cond_t czytelnik;
+  int empty_p, empty_c; 
 } czytelnia_t;
 
 /*** Deklaracje procedur interfejsu ***/
