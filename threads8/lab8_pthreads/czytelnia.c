@@ -15,9 +15,10 @@ int my_read_lock_lock(czytelnia_t* czytelnia_p){
         pthread_cond_wait(&czytelnia_p->czytelnik, &czytelnia_p->mutex);
         czytelnia_p->empty_c--;
     }
-    pthread_cond_signal(&czytelnia_p->czytelnik);
-    czytelnia_p -> liczba_c++;
+    czytelnia_p->liczba_c++;
     pthread_mutex_unlock(&czytelnia_p->mutex);
+
+    pthread_cond_signal(&czytelnia_p->czytelnik);
 }
 
 
@@ -37,7 +38,7 @@ int my_write_lock_lock(czytelnia_t* czytelnia_p){
         czytelnia_p->empty_p--;
     }
     czytelnia_p->liczba_p++;
-    pthread_mutex_unlock(&czytelnia_p -> mutex);
+    pthread_mutex_unlock(&czytelnia_p->mutex);
 }
 
 
