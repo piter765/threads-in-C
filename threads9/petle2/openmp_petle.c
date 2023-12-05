@@ -25,12 +25,13 @@ int main ()
 
   // podwĂłjna pÄtla - docelowo rĂłwnolegle
   double suma_parallel=0.0; int i;
-  #pragma omp parallel for ordered shared(a,i) default(none) reduction(+:suma_parallel) schedule(dynamic) num_threads(3)
-  
+
   for(i=0;i<WYMIAR;i++) {
     int id_w = omp_get_thread_num();
 
-    for(int j=0;j<WYMIAR;j++) {
+    int j;
+    #pragma omp parallel for ordered shared(a, i) default(none) reduction(+: suma_parallel) schedule(static,2) num_threads(3)
+    for(j=0;j<WYMIAR;j++) {
       suma_parallel += a[i][j];
       #pragma omp ordered
       // dla dekompozycji 1D
