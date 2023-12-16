@@ -33,11 +33,11 @@ int main(){
     
     int i;
     int d_local_private;
-    d_local_private = a_shared + c_firstprivate;
+    d_local_private = a_shared + c_firstprivate; // WAR a-36-40
     #pragma omp barrier
     #pragma omp critical
     for(i=0;i<10;i++){
-      a_shared++; 
+      a_shared++; //WAW, WAR, RAW a-40-40
     }
 
     for(i=0;i<10;i++){
@@ -46,15 +46,17 @@ int main(){
 
     for(i=0;i<10;i++){
       #pragma omp atomic
-      e_atomic+=omp_get_thread_num();
+      e_atomic+=omp_get_thread_num(); // WAR e-49-49
     }
-    
+
+    #pragma barrier
+    #pragma critical
     {
       
       printf("\nw obszarze równoległym: aktualna liczba watkow %d, moj ID %d\n",
 	     omp_get_num_threads(), omp_get_thread_num());
       
-      printf("\ta_shared \t= %d\n", a_shared);
+      printf("\ta_shared \t= %d\n", a_shared); // RAW a-59-40
       printf("\tb_private \t= %d\n", b_private);
       printf("\tc_firstprivate \t= %d\n", c_firstprivate);
       printf("\td_local_private = %d\n", d_local_private);

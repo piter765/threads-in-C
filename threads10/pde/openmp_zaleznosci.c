@@ -38,7 +38,7 @@ int main(){
   // wersja rĂłwnolegĹa
   #pragma omp parallel for
   for(i = 0; i < N; i++){
-    C[i] += A[i+2] + sin(B[i]);
+    C[i] += A[i+2] + sin(B[i]); // WAW 
   }
 
   t1 = omp_get_wtime() - t1;
